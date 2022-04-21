@@ -61,6 +61,8 @@ class MailerController extends AbstractController
 
         $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
 
+        $this->addFlash('success','E-Mail versandt!');
+
         $email = (new TemplatedEmail())
         ->from($sender)
         ->to($user->getEmail())
@@ -71,7 +73,7 @@ class MailerController extends AbstractController
         ;
 
     $mailer->send($email);
-    $this->addFlash('success','E-Mail versandt!');
+
     return $this->redirectToRoute('app_index');
     }
 
