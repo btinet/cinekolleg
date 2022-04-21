@@ -22,6 +22,9 @@
                 {% for flash_error in app.flashes('warning') %}
                     <div class="alert alert-danger mb-0" role="alert">{{ flash_error }}</div>
                 {% endfor %}
+                {% for flash_error in app.flashes('success') %}
+                    <div class="alert alert-danger mb-0" role="alert">{{ flash_error }}</div>
+                {% endfor %}
             </div>
             {% block body %}{% endblock %}
         </main>
