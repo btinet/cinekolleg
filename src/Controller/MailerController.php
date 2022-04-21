@@ -40,7 +40,7 @@ class MailerController extends AbstractController
         $email = $request->request->get('email');
         $fileName = "cinekolleg_start_guide_{$name}.pdf";
 
-        $document = $docRepository->find(4)->getDocument();
+        $document = $docRepository->find(7)->getDocument();
 
 
         $user = new User();
