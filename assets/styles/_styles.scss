@@ -1,0 +1,126 @@
+//
+// Custom styles
+//
+
+@import "icon-list";
+
+body {
+  letter-spacing: 0.025em;
+}
+
+// Style Bootstrap icons
+.bi {
+  fill: currentColor;
+}
+
+.bg-hero-flo{
+  background-color: $dark;
+  background-image: url("../images/backgrounds/IMG_8111.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-hero-ben-1{
+  background-color: $white;
+  background-image: url("../images/backgrounds/IMG_9876-Bearbeitet-2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-hero-nicole{
+  background-color: $dark;
+  background-image: url("../images/backgrounds/IMG_8645-Bearbeitet.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: revert;
+  background-size: cover;
+}
+
+.bg-hero-jan{
+  background-color: $dark;
+  background-image: url("../images/backgrounds/IMG_3198-Bearbeitet.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: revert;
+  background-size: cover;
+}
+
+.hero{
+  color: $white;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  &-title{
+  }
+  &-supertitle{
+    line-height: 1.2;
+    font-style: italic;
+  }
+  &-subtitle{
+    line-height: 1.6;
+    font-style: italic;
+    font-size: larger;
+  }
+  &-paragraph{
+    font-family: $font-family-base, 'sans-serif'!important;
+  }
+
+  &-link{
+    color: $primary;
+    background: none;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 1.6;
+    letter-spacing: 0.2em;
+    font-size: 14px;
+    font-family: proxima-nova, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+}
+
+section{
+  scroll-behavior: smooth;
+}
+
+.section{
+  text-align: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  &-primary{
+    color: $body-color;
+  }
+  &-lead{
+    text-transform: uppercase;
+    line-height: 1.6;
+    letter-spacing: 0.2em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    margin-bottom: 1rem;
+  }
+  &-title{
+    text-transform: uppercase;
+  }
+}
+
+.nav-link{
+  font-weight: 300;
+}
+
+.bg-uk-flag-blue{
+  background-color: #1e3a8a;
+  color: $white;
+}
+
+.footer-top{
+  background-color: #1e3a8a!important;
+  color: $white!important;
+}
+
+.footer-bottom{
+  background-color: #eab308!important;
+  color: #4b5563!important;
+}

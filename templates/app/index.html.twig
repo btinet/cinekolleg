@@ -1,0 +1,239 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+    <section class="bg-hero-flo py-5" id="home">
+        <div class="container py-5">
+            <div class="hero text-center">
+                <img src="{{ asset('build/images/logo/logo.png') }}" alt="logo" class="mb-5">
+                <h1 class="hero-title display-5">Begehe gemeinsam mit uns Deinen spannenden Weg zur Fotografie</h1>
+                <p class="hero-subtitle">
+                    Das CineKolleg ist die erste Anlaufstelle für visuelle KünstlerInnen aller Art - unterrichtet von den FotografInnen des Treptow Kolleg.
+                </p>
+                <a href="#courses" class="btn btn-link text-primary hero-link my-5">
+                    <span class="d-block">Entdecke die Kurse</span>
+                    <i class="bi-chevron-down" style="font-size: 2rem"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    {{ include('component/_navbar.html.twig') }}
+    <section class="py-5" id="info">
+        <div class="container py-5">
+            <div class="section section-primary">
+                <p class="section-lead">
+                    unter anderem<br/>Exkursionen, Übungen und Materialien
+                </p>
+                <h2 class="section-title my-3">mit Schwerpunkt auf<br/>Mensch und Natur</h2>
+                <p>
+                    So konzipiert, dass es sich anfühlt, als wären wir on Location oder zusammen im Studio: hochwertig, schnelllebig und fesselnd. Wenn Du jemals gezögert hast, eine Karriere in der Fotografie zu verfolgen, weil die Branche „zu überfüllt“ ist oder Dir gesagt wurde, Du wärst eine „verhungernde Künstlerin“, dann nimm Platz. Wir sind hier, um Dir zu zeigen, dass es alles andere als das sein kann.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="" id="catching">
+        <div class="bg-hero-nicole d-none d-md-block py-5">
+            <div class="container py-5">
+                <div class="hero my-5">
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-6">
+                            <p class="section-lead">
+                                Starte durch als FotografIn
+                            </p>
+                            <hr class="w-50">
+                            <h2 class="hero-supertitle display-6">Im Hinblick auf werdende Profis entwickelt</h2>
+                            <p class="hero-paragraph">
+                                Hast Du schon um die zehn Shoots hinter dir? Machst Du das schon seit ein paar Jahren? Fotografierst du nebenberuflich oder in Vollzeit? Das ist oft die beste Zeit, um die Grundlagen aufzufrischen und mit etwas Neuem zu experimentieren. Wenn Du die Grundprinzipien beherrschst, bist Du auf alles vorbereitet, was da kommt – und bringst deine Fähigkeiten auf die nächste Stufe. Das CineKolleg hilft Dir dabei.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="{{ asset('build/images/backgrounds/IMG_8645-Bearbeitet.jpg') }}" alt="Nicole" class="img-fluid d-block d-md-none">
+        <div class="bg-dark d-block d-md-none py-5">
+            <div class="container py-5">
+                <div class="hero">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <p class="section-lead">
+                                Starte durch als FotografIn
+                            </p>
+                            <hr class="w-50 mx-auto">
+                            <h2 class="hero-supertitle display-6">Im Hinblick auf werdende Profis entwickelt</h2>
+                            <p class="hero-paragraph">
+                                Hast Du schon um die zehn Shoots hinter dir? Machst Du das schon seit ein paar Jahren? Fotografierst du nebenberuflich oder in Vollzeit? Das ist oft die beste Zeit, um die Grundlagen aufzufrischen und mit etwas Neuem zu experimentieren. Wenn Du die Grundprinzipien beherrschst, bist Du auf alles vorbereitet, was da kommt – und bringst deine Fähigkeiten auf die nächste Stufe. Das CineKolleg hilft Dir dabei.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-5" id="courses">
+        <div class="container py-5">
+            <div class="section section-primary">
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <h2 class="hero-supertitle display-6">Du siehst Dich eher als Anfänger?</h2>
+                    </div>
+                    <div class="col-12 col-md-8 offset-md-2">
+                        <p>
+                            Angenommen, Du hast gerade erst Deine erste Kamera gekauft und hoffst, in Deinem nächsten Urlaub ein paar Fotos zu machen, die es sich lohnen, an die Wand zu hängen. Oder Du hoffst auf deinen ersten bezahlten Fotoauftrag in naher Zukunft. Dann bist Du bei uns ebenso richtig.
+                        </p>
+                    </div>
+                </div>
+                <div class="row align-items-center g-5">
+                    <div class="col-12 col-md-6">
+                        <img src="{{ asset('build/images/backgrounds/IMG_9325-Bearbeitet-2.jpg') }}" alt="Colaglas" class="img-fluid img-thumbnail">
+                    </div>
+                    <div class="col-12 col-md-6 px-md-2">
+                        <div class="hero text-dark">
+                            <p class="hero-subtitle">
+                                Du willst deine Fähigkeiten als facettenreiche Fotografin verbessern?
+                            </p>
+                            <h2 class="hero-title display-4 mb-3">Verbessere deine Kompositionen</h2>
+                        </div>
+                        <p class="mb-5">
+                            Nur, wenn Du die Regeln kennst, kannst Du sie brechen. Schreibe Dich ein und erhalte meinen exklusiven Guide!
+                        </p>
+                        <a href="#sign-up" class="btn px-5 btn-primary text-uppercase">
+                            <span class="d-block">Guide erhalten</span>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-5 px-md-2 order-3 order-md-1">
+                        <div class="hero text-dark">
+                            <p class="section-lead text-primary">
+                                Erhalte Zugang zum Kurs
+                            </p>
+                            <h2 class="hero-title display-4 mb-3">
+                                Grundlagen der Fotografie
+                            </h2>
+                            <p class="hero-subtitle">
+                                Ein Must-Have für visuelle Künstlerinnen jeder Stufe
+                            </p>
+                        </div>
+
+                        <p class="mb-5">
+                            Vertiefe Deine Kenntnisse der grundlegenden Prinzipien der Fotografie und werde Meisterin deines Handwerks.
+                        </p>
+                        <a href="{{ url('tutorium_index') }}" class="btn px-5 btn-primary text-uppercase">
+                            <span class="d-block">Entdecke die Kurse</span>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-7 order-2">
+                        <img src="{{ asset('build/images/backgrounds/IMG_9820-Bearbeitet.jpg') }}" alt="Colaglas" class="img-fluid img-thumbnail">
+                    </div>
+                    <div class="col-12 pt-3 order-4">
+                        <h3 class="display-5 hero-title">"SOLID, SOLID, SOLID!"</h3>
+                        <figure>
+                            <blockquote class="blockquote">
+                                <p class="small">"I LOVED when you distinguished and set yourself apart from what people can “Google” and watch technical tips on Youtube."</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                Kim <cite title="Source Title">(Sommer Workshop Berlin)</cite>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-5 bg-dark" id="about">
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <img src="{{ asset('build/images/backgrounds/20211007_0130-Bearbeitet.jpg') }}" alt="Colaglas" class="img-fluid shadow position-relative" style="top: -150px">
+                    <div class="position-relative d-none d-lg-block text-white" style="left:-100px;bottom:350px;">
+                        <p class="section-lead">
+                            Triff Deinen Coach
+                        </p>
+                        <h2 class="section-title my-3 h1">Benjamin<br/>Wagner</h2>
+                    </div>
+                    <div class="position-relative d-block d-lg-none text-white text-center" style="bottom:100px;">
+                        <p class="section-lead">
+                            Triff Deinen Coach
+                        </p>
+                        <h2 class="section-title my-3 h1">Benjamin<br/>Wagner</h2>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="hero text-center text-md-start">
+                        <p class="section-lead">
+                            Gründer von Wagner Pictures und Lead Photographer
+                        </p>
+                        <hr class="w-50 mx-auto mx-md-0 bg-primary">
+                        <p class="hero-paragraph">
+                            Gründer und Lead Photographer von Wagner Pictures mit über fünf Jahren Erfahrung in Hochzeits-, Portrait- und Eventfotografie. Entwickelt hat sich seine lichtmalerische Leidenschaft aus seiner mehr als 10-jährigen Tätigkeit als
+                            Musikproduzent und Filmemacher der Berliner Alternativszene.
+                        </p>
+                        <p class="hero-paragraph mb-5">
+                            Benjamin versucht am <b>Cinekolleg</b> sein Wissen an interessierte Fotografinnen und Künstlerinnen weiterzugeben. Er hat sich zum Ziel gesetzt, Fotowettbewerbe, Ausstellungen und Galerien zu organisieren sowie ein Hochglanzmagazin herauszugeben, um die Arbeiten zu präsentieren. Denn auf Leinwand oder als Großformatdruck wirken die Bilder nochmal ganz anders, als auf dem heimischen Computer, Tablet oder Handy.
+                        </p>
+                        <a target="_blank" href="https://www.wagnerpictures.com" class="btn btn-outline-light px-5">Wagner Pictures Website<i class="bi bi-chevron-double-right ms-2"></i></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-5" id="sign-up">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-12 col-md-7 text-center mb-3">
+                    <div class="hero text-dark">
+                        <p class="hero-subtitle">
+                            Schon den kostenfreien Guide erhalten?
+                        </p>
+                        <h2 class="hero-title display-4 mb-3 text-uppercase">Verbessere deine Kompositionen</h2>
+                        <p class="hero-subtitle mb-5">
+                            <span class="small">Nur, wenn Du die Regeln kennst, kannst Du sie brechen. Schreibe Dich ein und erhalte meinen exklusiven Guide!</span>
+                        </p>
+                        <form action="{{ url('email_send') }}" method="post" class="needs-validation text-start section" novalidate="">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="firstName" class="form-label d-none">Vorname</label>
+                                    <input type="text" class="form-control" name="first_name" id="firstName" placeholder="Vorname" value="" required="required">
+                                    <div class="invalid-feedback">
+                                        Bitte gib Deinen Vornamen an.
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label d-none">E-Mail-Adresse</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="E-Mail-Adresse" required="required">
+                                    <div class="invalid-feedback">
+                                        Bitte gib Deine E-Mail-Adresse an.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="skill" class="form-label d-none">Selbsteinschätzung</label>
+                                    <select name="skill" class="form-select" id="skill" required="">
+                                        <option value="">wähle...</option>
+                                        <option value="1">Anfängerin</option>
+                                        <option value="2">Fortgeschrittene</option>
+                                        <option value="3">Professionelle Fotografin</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Bitte gib Deinen Kenntnisstand an.
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <p class="hero-paragraph small">Mit klick auf <b>Guide erhalten</b> stimmst Du dem Erhalt eines Newsletters zu. Du kannst dem Empfang jederzeit widersprechen.</p>
+                                </div>
+                                <div class="col-12">
+                                    <button class="w-100 btn btn-primary text-uppercase" type="submit">Guide erhalten</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5">
+                    <img src="{{ asset('build/images/backgrounds/20211024_0215-Bearbeitet.jpg') }}" alt="Colaglas" class="img-fluid img-thumbnail">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

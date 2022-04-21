@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+    {{ include('component/_navbar.html.twig') }}
+    <section class="py-5" id="overview">
+        <div class="container py-5">
+            <div class="section section-primary">
+                <p class="section-lead">{{ app.user.firstName }}</p>
+                <h1 class="section-title mb-3">Profil</h1>
+            </div>
+            {% if not user.verified %}
+            <div class="row border-bottom pb-3 g-3 align-items-center justify-content-between">
+                <div class="col-12 col-md-8 text-center text-md-start">
+                    <span>Deine E-Mail-Adresse ist noch nicht bestätigt</span>
+                </div>
+                <div class="col-12 col-md-4 text-center text-md-end">
+                    <a href="{{ path('profile_verify_email') }}" class="btn btn-secondary">E-Mail verifizieren</a>
+                </div>
+            </div>
+            {% endif %}
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">
+                        Funktionen und Übersichten folgen mit der Zeit. Gibt es besondere Wünsche? Sprich mich einfach darauf an!
+                    </p>
+                    <p class="card-text">
+                        Demnächst folgen Funktionen zum Ändern von Name, Passwort und E-Mail-Adresse sowie das An- und Abmelden vom Newsletter, insofern es dann auch tatsächlich einen geben wird.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

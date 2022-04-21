@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\CourseComment;
+use App\Form\CourseCommentType;
+use App\Repository\CourseRepository;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * @Route("/tutorium", name="tutorium_")
+ */
+class TutoriumController extends AbstractController
+{
+    /**
+     * @Route("/", name="index")
+     */
+    public function index(CourseRepository $courseRepository): Response
+    {
+        $courses = $courseRepository->findby([],['date' => 'DESC'],10);
+        return $this->render('tutorial/index.html.twig', [
+            'courses' => $courses
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="show")
+     */
+    public function show(Request $request, EntityManagerInterface $entityManager, ManagerRegistry $registry, CourseRepository $courseRepository, $id): Response
+    {
+        $course = $courseRepository->find($id);
+        $comment = new CourseComment();
+        $commentForm = $this->createForm(CourseCommentType::class,$comment);
+        $commentForm->handleRequest($request);
+
+        if($commentForm->isSubmitted() && $commentForm->isValid())
+        {
+            $user = new UserRepository($registry);
+            $comment->setUser($user->find($this->getUser()));
+            $comment->setCourse($course);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('tutorium_show',['id' => $id]);
+        }
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('tutorial/show.html.twig', [
+            'course' => $course,
+            'comment_form' => $commentForm->createView()
+        ]);
+    }
+}

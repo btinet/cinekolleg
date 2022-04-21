@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body %}
+    {{ include('component/_navbar.html.twig') }}
+    <section class="py-5" id="register">
+        <div class="container py-5">
+            <div class="section section-primary">
+                <p class="section-lead">
+                    {{ page.title }}
+                </p>
+                <hr class="mb-5">
+            </div>
+            <div class="row g-5">
+                <div class="col-12">
+                    {{ page.content|raw }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

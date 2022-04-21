@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+<section class="" id="catching">
+    <div class="bg-hero-ben-1 py-5">
+        <div class="container py-5">
+            <div class="hero my-5">
+                <div class="row">
+                    <div class="col-12">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    {{ include('component/_navbar.html.twig') }}
+<section class="py-5" id="register">
+    <div class="container py-5">
+        <div class="section section-primary">
+            <p class="section-lead">
+                Neues Passwort setzen
+            </p>
+            <hr class="mb-5">
+        </div>
+        <div class="row g-5">
+            <div class="col-12 col-md-6 offset-md-3">
+                {{ form_start(resetForm) }}
+                    {{ form_row(resetForm.plainPassword) }}
+                    <button class="btn btn-outline-dark px-5 text-uppercase">Neues Passwort setzen</button>
+                {{ form_end(resetForm) }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

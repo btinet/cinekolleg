@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -13,7 +13,58 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <div class="">
+                {{ render(controller(
+                    'App\\Controller\\UserController::getUserState'
+                )) }}
+                {% for flash_error in app.flashes('warning') %}
+                    <div class="alert alert-danger mb-0" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+            </div>
+            {% block body %}{% endblock %}
+        </main>
+        <footer class="pt-5  mt-auto" id="about">
+            <section class="footer-content">
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <small class="text-muted"><i class="bi bi-arrow-down me-2"></i>Unsere Fußzeile verwendet nun die Farben der Ukrainischen Flagge, um unsere Unterstützung zu demonstrieren.</small>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <section class="footer-top">
+                <div class="container pt-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="hero text-center">
+                                <img src="{{ asset('build/images/logo/logo.png') }}" alt="logo" class="mb-3" width="128px">
+                                <p class="hero-subtitle mb-5 rounded" style="background-color: hsla(0,0%,100%,.2)">
+                                    <small>Ein Must-Have für visuelle Künstlerinnen jeder Stufe</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="footer-bottom">
+                <div class="container pt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <small class="d-flex flex-md-row flex-column justify-content-center align-items-center">
+                                    <span class="me-0 me-md-3">&copy;2022 Wagner Pictures</span>
+                                    <a href="{{ path('app_show_page',{slug:'datenschutz'}) }}" class="btn btn-link btn-sm">Datenschutz</a>
+                                    <a href="{{ path('app_show_page',{slug:'impressum'}) }}" class="btn btn-link btn-sm">Impressum</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </footer>
     </body>
 </html>

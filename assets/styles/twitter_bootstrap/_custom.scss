@@ -1,0 +1,32 @@
+// Import Fonts
+@import url("https://use.typekit.net/dcz3wfu.css");
+
+$headings-font-family: aw-conqueror-didot, serif;
+$headings-font-weight: 400!important;
+$headings-line-height: 1;
+$font-size-base: .9rem;
+$font-family-base:  sofia-pro, sans-serif;
+$font-weight-base: 400;
+$line-height-base: 1.6;
+$input-font-family:  Proxima Nova Light, 'sans-serif';
+$input-btn-font-family: $input-font-family;
+// Toggle global options
+$enable-shadows: true;
+$nav-link-font-weight: 400;
+$input-font-weight: 400;
+$navbar-padding-y: .175rem;
+// Customize some defaults
+$gold: #E6C76C;
+$body-bg: rgba(52,52,52,0.02);
+$gray-900: rgba(52,52,52,1);
+
+
+
+
+$border-radius:                     0;
+$border-radius-lg:                  0;
+$border-radius-sm:                  0;
+$container-max-widths: (
+        sm: 540px,
+        md: 960px,
+);

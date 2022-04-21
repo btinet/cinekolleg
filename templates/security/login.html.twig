@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+    {{ include('component/_navbar.html.twig') }}
+    <section class="py-5" id="login">
+        <div class="container py-5">
+            <div class="section section-primary">
+                <p class="section-lead">
+                    Lade Guides,<br/>Übungen und Materialien
+                </p>
+                <hr class="mb-5">
+            </div>
+            <div class="row g-5">
+                <div class="col-12 col-md-6 order-2">
+                    <img src="{{ asset('build/images/backgrounds/IMG_9820-Bearbeitet.jpg') }}" alt="Colaglas" class="img-fluid img-thumbnail">
+                </div>
+                <div class="col-12 col-md-6 order-1 order-md-3">
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <h1 class="h3 mb-3 font-weight-normal">Anmelden</h1>
+                        <label for="inputEmail">E-Mail-Adresse</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-3" autocomplete="email" required>
+                        <label for="inputPassword">Passwort</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control mb-1" autocomplete="current-password" required>
+
+                        <small class="d-block mb-2">
+                            <a href="{{ path('app_forgot_password_request') }}" class="text-danger">Passwort vergessen?</a>
+                        </small>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> eingeloggt bleiben?
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <small class="">
+                                Mit Klick auf <b>Anmelden</b> erklärst Du Dich mit den aktuellen Nutzungsbedingungen einverstanden.
+                            </small>
+                        </div>
+
+
+                        <button class="btn btn-outline-dark text-uppercase mb-3 px-5" type="submit">
+                            Anmelden
+                        </button>
+                    </form>
+
+                    <div class="mb-3">
+                        <small class="d-flex flex-column">
+                            <a href="{{ path('app_register') }}" class="text-dark">Neu registrieren</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {#
+    <section class="" id="catching">
+        <div class="bg-hero-jan d-none d-md-block py-5">
+            <div class="container py-5">
+                <div class="hero my-5">
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <p class="section-lead">
+                                Starte durch als FotografIn
+                            </p>
+                            <hr class="w-50">
+                            <h1 class="hero-supertitle display-6">Für Anfängerinnen und Fortgeschrittene</h1>
+                            <p class="hero-paragraph">
+                                Wenn Du die Grundprinzipien beherrschst, bist Du auf alles vorbereitet, was da kommt – und bringst deine Fähigkeiten auf die nächste Stufe. Das CineKolleg hilft Dir dabei.
+                            </p>
+                            <a href="#login" class="btn btn-link text-primary hero-link my-5">
+                                <span class="d-block">Jetzt einloggen</span>
+                                <i class="bi-chevron-up" style="font-size: 2rem"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="{{ asset('build/images/backgrounds/IMG_3198-Bearbeitet.jpg') }}" alt="Nicole" class="img-fluid d-block d-md-none">
+        <div class="bg-dark d-block d-md-none py-5">
+            <div class="container py-5">
+                <div class="hero">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <p class="section-lead">
+                                Starte durch als FotografIn
+                            </p>
+                            <hr class="w-50 mx-auto">
+                            <h2 class="hero-supertitle display-6">Für Anfängerinnen und Fortgeschrittene</h2>
+                            <p class="hero-paragraph">
+                                Wenn Du die Grundprinzipien beherrschst, bist Du auf alles vorbereitet, was da kommt – und bringst deine Fähigkeiten auf die nächste Stufe. Das CineKolleg hilft Dir dabei.
+                            </p>
+                            <a href="#login" class="btn btn-link text-primary hero-link">
+                                <span class="d-block">Jetzt einloggen</span>
+                                <i class="bi-chevron-up" style="font-size: 2rem"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    #}
+
+{% endblock %}

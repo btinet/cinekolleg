@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+    {{ include('component/_navbar.html.twig') }}
+    <section class="py-5" id="overview">
+        <div class="container py-5">
+            <h1 class="text-center">{{ course.title }}</h1>
+            <h2 class="text-center mb-3 h5 section-lead">{{ course.subject }}</h2>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ path('tutorium_index') }}" class="btn btn-primary btn-sm mb-3">zurück zur Übersicht</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ ea_url()
+                        .setController('App\\Controller\\Admin\\CourseCrudController')
+                        .setAction('edit')
+                        .setEntityId(course.id) }}" class="btn btn-secondary btn-sm mb-3">bearbeiten</a>
+                {% endif %}
+            </div>
+            <div class="row g-3">
+                <div class="col-12 col-md-7 order-3 order-md-1">
+                    <div class="card bord shadow-sm">
+                        <div class="card-header">
+                            <p class="section-title mb-0">Kursdetails</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-column justify-content-start">
+                                <small class="lead text-start text-nowrap">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
+                                <small class="d-block text-start">{{ course.location }}</small>
+                            </div>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            {% for file in course.lessonDocs %}
+                                <a href="{{ path('lesson_doc_download',{'id':file.id}) }}" class="list-group-item list-group-item-action d-flex flex-column" target="_blank">
+                                    <div class="d-flex justify-content-between align-items-center gap-3">
+                                        <div class="d-flex justify-content-start align-items-center">
+
+                                        <span class="fw-bold">
+                                        <i class="bi bi-file-pdf text-danger me-1"></i> {{ file.title }}<br>
+                                        <small class="text-decoration-none fw-light">{{ file.description }}</small>
+                                        </span>
+                                        </div>
+                                        <span class="small text-muted">
+                                    {{ file.updated|ago }}
+                                </span>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer">
+                            <p class="mb-0 small">Feature vorschlagen? <a href="mailto:bwagner@vapita.de" class="link-dark">Schreibe Ben eine Nachricht</a>.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 order-2">
+                    <div class="card border-primary shadow-sm h-100">
+                        <div class="card-header">
+                            <p class="section-title mb-0">
+                                Informationen und Hinweise
+                            </p>
+                        </div>
+                        <div class="card-body">
+                                {{ course.description|raw }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 order-last">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <p class="section-title mb-0">
+                                Kommentare
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(comment_form) }}
+                            {{ form_end(comment_form) }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for comment in course.courseComments %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <b class="text-primary">{{ comment.user }}</b>
+                                    <small>{{ comment.updated|ago }}</small>
+                                </div>
+
+                                <p class="mb-0">{{ comment.content }}</p></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#
+        {% if is_granted('ROLE_USER') %}
+            <ul class="list-group list-group-flush">
+                {% for item in course.lessonDocs %}
+                    <li class="list-group-item bg-transparent">
+                        <i class="bi ms-0 ms-md-2 bi-file-pdf me-2"></i><a href="{{ path('lesson_doc_download',{'id':item.id}) }}" class="small text-secondary text-decoration-underline" target="_blank">{{ item.document }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <small class="text-muted"><i>(Downloads nur nach <a href="{{ path('app_login') }}">Login</a> möglich)</i></small>
+        {% endif %}
+        #}
+    </section>
+{% endblock %}
