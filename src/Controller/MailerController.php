@@ -66,6 +66,7 @@ class MailerController extends AbstractController
         $email = (new TemplatedEmail())
         ->from($sender)
         ->to($user->getEmail())
+            ->bcc($sender)
         ->subject('Dein persönlicher Guide')
         ->context(['user' => $user])
         ->attachFromPath("{$projectDir}/var/storage/lessons/docs/{$document}")

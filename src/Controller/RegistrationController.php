@@ -49,10 +49,12 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
+            $sender = new Address('benjamin.wagner@cinekolleg.de', 'Benjamin Wagner | CineKolleg');
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('benjamin.wagner@cinekolleg.de', 'Benjamin Wagner | CineKolleg'))
+                    ->from($sender)
                     ->to($user->getEmail())
+                    ->bcc($sender)
                     ->subject('Bitte bestätige Deine E-Mail-Adresse')
                     ->context(['user' => $user])
                     ->htmlTemplate('registration/confirmation_email.html.twig')

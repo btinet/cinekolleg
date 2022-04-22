@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class LessonDocCrudController extends AbstractCrudController

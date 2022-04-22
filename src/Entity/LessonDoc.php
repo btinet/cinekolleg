@@ -93,18 +93,13 @@ class LessonDoc
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDocument()
     {
         return $this->document;
     }
 
-    /**
-     * @param string $document
-     */
-    public function setDocument(string $document): void
+
+    public function setDocument($document): void
     {
         $this->document = $document;
     }
