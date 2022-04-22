@@ -34,10 +34,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private ?string $password;
+
+
+    private ?string $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -138,6 +140,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -168,6 +179,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->firstName = $firstName;
 
         return $this;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        if (!$this->avatar) {
+            return null;
+        }
+        if (strpos($this->avatar, '/') !== false) {
+            return $this->avatar;
+        }
+        return sprintf('/uploads/avatars/%s', $this->avatar);
     }
 
     public function getAvatar(): ?string

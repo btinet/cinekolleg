@@ -6,6 +6,7 @@ use App\Entity\Course;
 use App\Entity\CourseComment;
 use App\Entity\LessonDoc;
 use App\Entity\Page;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -44,7 +45,8 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToUrl('Website', 'fas fa-home', $this->generateUrl('app_index'));
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
-        yield MenuItem::linkToCrud('Seiten', 'fa fa-page', Page::class);
+        yield MenuItem::linkToCrud('Benutzer', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Seiten', 'fa fa-file', Page::class);
         yield MenuItem::linkToCrud('Kurse', 'fa fa-list', Course::class);
         yield MenuItem::linkToCrud('Kommentare', 'fa fa-comment', CourseComment::class);
         yield MenuItem::linkToCrud('Dokumente', 'fa fa-file', LessonDoc::class);
