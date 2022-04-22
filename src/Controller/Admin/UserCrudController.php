@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -43,6 +44,13 @@ class UserCrudController extends AbstractCrudController
             ->renderAsBadges();
         yield BooleanField::new('isVerified')
             ->renderAsSwitch(true);
+        yield AssociationField::new('courses')
+            ->setFormTypeOptions([
+                'multiple' => true,
+                'by_reference' => false,
+                'expanded' => true
+            ])
+        ;
     }
 
 }

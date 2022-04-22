@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Course;
 use App\Entity\CourseComment;
+use App\Entity\LessonDoc;
+use App\Entity\User;
 use App\Form\CourseCommentType;
 use App\Repository\CourseRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,5 +58,25 @@ class TutoriumController extends AbstractController
             'course' => $course,
             'comment_form' => $commentForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/subscribe/{id}", name="subscribe")
+     */
+    public function subscribeToCourse(EntityManagerInterface $entityManager, Course $course, UserRepository $userRepository): RedirectResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $userRepository->find($this->getUser());
+        if($course->getUsers()->contains($user))
+        {
+            $course->removeUser($user);
+            $this->addFlash('success','Kurs nicht mehr abonniert.');
+        } else {
+            $course->addUser($user);
+            $this->addFlash('success','Kurs abonniert.');
+        }
+        $entityManager->persist($course);
+        $entityManager->flush();
+        return $this->redirectToRoute('tutorium_show',['id'=>$course->getId()]);
     }
 }

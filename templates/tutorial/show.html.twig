@@ -17,6 +17,11 @@
                         .setEntityId(course.id) }}" class="btn btn-secondary btn-sm mb-3">bearbeiten</a>
                 {% endif %}
             </div>
+            {% if course.users.contains(app.user) %}
+                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-success btn-sm mb-3">nicht mehr abonnieren</a>
+                {% else %}
+                    <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-light btn-sm mb-3">abonnieren</a>
+            {% endif %}
             <div class="row g-3">
                 <div class="col-12 col-md-7 order-3 order-md-1">
                     <div class="card bord shadow-sm">

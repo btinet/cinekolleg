@@ -31,8 +31,12 @@ class CourseCrudController extends AbstractCrudController
             DateField::new('date'),
             TimeField::new('time'),
             TextField::new('location'),
-
-
+            AssociationField::new('users')
+                ->setFormTypeOptions([
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'expanded' => true
+                ])
         ];
     }
 

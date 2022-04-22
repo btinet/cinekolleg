@@ -19,11 +19,10 @@
                 {{ render(controller(
                     'App\\Controller\\UserController::getUserState'
                 )) }}
-                {% for flash_error in app.flashes('warning') %}
-                    <div class="alert alert-danger mb-0" role="alert">{{ flash_error }}</div>
-                {% endfor %}
-                {% for flash_error in app.flashes('success') %}
-                    <div class="alert alert-danger mb-0" role="alert">{{ flash_error }}</div>
+                {% for type, messages in app.flashes() %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }} mb-0" role="alert">{{ message }}</div>
+                    {% endfor %}
                 {% endfor %}
             </div>
             {% block body %}{% endblock %}

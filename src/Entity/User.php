@@ -61,14 +61,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $courseComments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="users")
+     */
+    private $courses;
+
     public function __toString()
     {
-        return $this->firstName;
+        return $this->getUserIdentifier();
     }
 
     public function __construct()
     {
         $this->courseComments = new ArrayCollection();
+        $this->courses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +247,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($courseComment->getUser() === $this) {
                 $courseComment->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Course>
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(Course $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Course $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            $course->removeUser($this);
         }
 
         return $this;

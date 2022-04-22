@@ -59,10 +59,16 @@ class Course
      */
     private $courseComments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="courses")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->lessonDocs = new ArrayCollection();
         $this->courseComments = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function __toString()
@@ -203,6 +209,30 @@ class Course
                 $courseComment->setCourse(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
 
         return $this;
     }

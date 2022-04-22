@@ -24,7 +24,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {% if app.user %}
+                                {% if course.users.contains(app.user) %}
+                                    <span class="badge text-dark bg-success">abonniert</span>
+                                {% else %}
+                                    <span class="badge text-dark bg-light">nicht abonniert</span>
+                                {% endif %}
+                            {% else %}
+                                    <span class="badge text-dark bg-light">nicht abonniert</span>
+                            {% endif %}
                         </a>
                     {% endfor %}
                 </div>
