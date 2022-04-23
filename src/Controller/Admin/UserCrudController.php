@@ -33,7 +33,7 @@ class UserCrudController extends AbstractCrudController
         yield EmailField::new('email');
         Yield TextField::new('plainPassword')
             ->setFormType(PasswordType::class)
-            ->onlyOnForms();
+            ->onlyOnForms()->hideWhenUpdating();
         yield Field::new('firstName')
             ->onlyOnForms();
         $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
