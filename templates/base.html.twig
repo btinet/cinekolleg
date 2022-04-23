@@ -16,6 +16,12 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <style>
+                section, nav{
+                    padding-left: env(safe-area-inset-left, 16px);
+                    padding-right:  env(safe-area-inset-right, 16px);
+                }
+            </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -24,7 +30,7 @@
     </head>
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
-            <div class="">
+            <section id="error-messages">
                 {{ render(controller(
                     'App\\Controller\\UserController::getUserState'
                 )) }}
@@ -33,7 +39,7 @@
                         <div class="alert alert-{{ type }} mb-0" role="alert">{{ message }}</div>
                     {% endfor %}
                 {% endfor %}
-            </div>
+            </section>
             {% block body %}{% endblock %}
         </main>
         <footer class="pt-5  mt-auto" id="about">
