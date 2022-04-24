@@ -80,8 +80,10 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                     ->htmlTemplate('emails/email_course_update.html.twig');
             }
         }
-        foreach ($this->emails as $email) {
-            $this->mailer->send($email);
+        if(!empty($this->emails)) {
+            foreach ($this->emails as $email) {
+                $this->mailer->send($email);
+            }
         }
 
     }

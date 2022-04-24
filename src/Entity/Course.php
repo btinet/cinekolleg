@@ -6,9 +6,13 @@ use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
+ * @Vich\Uploadable
  */
 class Course
 {
@@ -63,6 +67,29 @@ class Course
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="courses")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $document;
+
+    /**
+     * @Vich\UploadableField(mapping="course_image", fileNameProperty="document")
+     * @var File
+     */
+    private $documentFile;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated;
 
     public function __construct()
     {
@@ -235,5 +262,51 @@ class Course
         $this->users->removeElement($user);
 
         return $this;
+    }
+
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+
+    public function setDocument($document): void
+    {
+        $this->document = $document;
+    }
+
+
+    public function getDocumentFile()
+    {
+        return $this->documentFile;
+    }
+
+    /**
+     * @param File|null $documentFile
+     */
+    public function setDocumentFile(File $documentFile = null): void
+    {
+        $this->documentFile = $documentFile;
+
+        if ($documentFile) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

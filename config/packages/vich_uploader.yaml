@@ -9,3 +9,7 @@ vich_uploader:
             uri_prefix: /uploads/lessons/docs
             upload_destination: '%kernel.project_dir%/var/storage/lessons/docs'
 
+        course_image:
+            uri_prefix: /uploads/course/image
+            upload_destination: '%kernel.project_dir%/public/uploads/course/image'
+

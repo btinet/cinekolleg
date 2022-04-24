@@ -7,40 +7,39 @@
     <section class="py-5" id="overview">
         <div class="container py-5">
             <h1 class="text-center mb-3">Aktuelle Kurstermine</h1>
-            <div class="card shadow-sm">
-                <div class="list-group list-group-flush">
-                    {% for course in courses %}
-                        <a href="{{ path('tutorium_show',{'id':course.id}) }}" class="list-group-item list-group-item-action d-flex flex-column py-3">
-                            <div class="d-flex gap-3">
-                                <img src="{{ asset('build/images/icons/icons8-tuition-32.png') }}" alt="Tutorium" class="flex-shrink-0 d-none d-md-block" width="32" height="32">
-                                <div class="d-flex gap-2 w-100 flex-column flex-md-row align-content-md-start justify-content-between">
-                                    <div>
-                                        <h6 class="mb-0 hero-paragraph fw-bold" style="line-height: 1.2">{{ course.title }}</h6>
-                                        <p class="mb-0 opacity-75" style="line-height: 1.2">{{ course.subject }}</p>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-start justify-content-md-end">
-                                        <small class="opacity-50 text-start text-md-end text-nowrap">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
-                                        <small class="d-block text-start text-md-end">{{ course.location }}</small>
-                                    </div>
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-3">
+                {% for course in courses %}
+                    <div>
+                        <div class="card border-0 shadow-sm">
+                            {% if course.document %}
+                                <img src="{{ vich_uploader_asset(course)|imagine_filter('course_thumb') }}" alt="Tutorium" class="card-img-top">
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="d-flex flex-column justify-content-start justify-content-md-end mb-3">
+                                    <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
+                                    <small class="d-block">{{ course.location }}</small>
+                                    <h6 class="mb-0 hero-paragraph fw-bold" style="line-height: 1.2">{{ course.title }}</h6>
+                                    <p class="mb-0 opacity-75" style="line-height: 1.2">{{ course.subject }}</p>
                                 </div>
-                            </div>
-                            {% if app.user %}
-                                {% if course.users.contains(app.user) %}
-                                    <span class="badge text-dark bg-success">abonniert</span>
+
+
+                                <a href="{{ path('tutorium_show',{'id':course.id}) }}" class="stretched-link btn btn-dark w-100 mb-3">Zum Kurs</a>
+                                {% if app.user %}
+                                    {% if course.users.contains(app.user) %}
+                                        <span class="badge text-dark bg-success">abonniert</span>
+                                    {% else %}
+                                        <span class="badge text-dark bg-light">nicht abonniert</span>
+                                    {% endif %}
                                 {% else %}
                                     <span class="badge text-dark bg-light">nicht abonniert</span>
                                 {% endif %}
-                            {% else %}
-                                    <span class="badge text-dark bg-light">nicht abonniert</span>
-                            {% endif %}
-                        </a>
-                    {% endfor %}
-                </div>
-                <div class="card-footer">
-                    <p class="mb-0 small">Es werden nur die zehn letzten Kurse angezeigt.</p>
-                </div>
-            </div>
+                            </div>
 
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
         </div>
         {#
         {% if is_granted('ROLE_USER') %}
