@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Notification;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -62,15 +63,16 @@ class NotificationRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Notification
+    public function findNotificationSettingsByUser($user,$sourceId): ?Notification
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('notification')
+            ->andWhere('notification.user = :user')
+            ->andWhere('sources.sourceId = :sourceId')
+            ->setParameter('user', $user)
+            ->setParameter('sourceId', $sourceId)
+            ->leftJoin('notification.sources','sources')
             ->getQuery()
             ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
 }

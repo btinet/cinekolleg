@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Course;
 use App\Entity\User;
+use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityBuiltEvent;
@@ -23,12 +24,14 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     protected MailerInterface $mailer;
     private array $emails;
     private UserRepository $userRepository;
+    private NotificationRepository $notificationRepository;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UserRepository $userRepository)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UserRepository $userRepository, NotificationRepository $notificationRepository)
     {
         $this->passwordHasher = $passwordHasher;
         $this->mailer = $mailer;
         $this->userRepository = $userRepository;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -66,12 +69,16 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
 
         foreach ($entity->getUsers() as $user) {
-            $this->emails[] = (new TemplatedEmail())
-                ->from($sender)
-                ->to(new Address($user->getEmail(), $user->getFirstName()))
-                ->subject("Kurs aktualisiert")
-                ->context(['user' => $user,'course'=>$entity])
-                ->htmlTemplate('emails/email_course_update.html.twig');
+            $notification = $this->notificationRepository->findNotificationSettingsByUser($user,'3002');
+
+            if(null !== $notification) {
+                $this->emails[] = (new TemplatedEmail())
+                    ->from($sender)
+                    ->to(new Address($user->getEmail(), $user->getFirstName()))
+                    ->subject("Kurs aktualisiert")
+                    ->context(['user' => $user, 'course' => $entity])
+                    ->htmlTemplate('emails/email_course_update.html.twig');
+            }
         }
         foreach ($this->emails as $email) {
             $this->mailer->send($email);
@@ -87,19 +94,25 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             return;
         }
 
-
         $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
 
         foreach ($this->userRepository->findAll() as $user) {
-            $this->emails[] = (new TemplatedEmail())
-                ->from($sender)
-                ->to(new Address($user->getEmail(), $user->getFirstName()))
-                ->subject("Neuer Kurs verfügbar")
-                ->context(['user' => $user,'course'=>$entity])
-                ->htmlTemplate('emails/email_course_create.html.twig');
+            $notification = $this->notificationRepository->findNotificationSettingsByUser($user,'3001');
+
+            if(null !== $notification)
+            {
+                $this->emails[] = (new TemplatedEmail())
+                    ->from($sender)
+                    ->to(new Address($user->getEmail(), $user->getFirstName()))
+                    ->subject("Neuer Kurs verfügbar")
+                    ->context(['user' => $user,'course'=>$entity])
+                    ->htmlTemplate('emails/email_course_create.html.twig');
+            }
         }
-        foreach ($this->emails as $email) {
-            $this->mailer->send($email);
+        if(!empty($this->emails)) {
+            foreach ($this->emails as $email) {
+                $this->mailer->send($email);
+            }
         }
     }
 
