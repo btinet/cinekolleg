@@ -2,10 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
+use App\Entity\NotificationTemplate;
+use App\Form\NotificationType;
+use App\Form\UserType;
+use App\Repository\NotificationRepository;
+use App\Repository\NotificationTemplateRepository;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -30,10 +39,46 @@ class ProfileController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, ManagerRegistry $registry, UserRepository $userRepository, NotificationRepository $notificationRepository, NotificationTemplateRepository $templateRepository): Response
     {
+
+        $notification = new Notification();
+        $userNotification = $notificationRepository->findBy(['user' => $this->getUser()]);
+        if($userNotification){
+          $notification = array_pop($userNotification);
+        }
+        $notificationForm = $this->createForm(NotificationType::class,$notification);
+        $notificationForm->handleRequest($request);
+
+        $userData = $userRepository->find($this->getUser());
+
+        $userForm = $this->createForm(UserType::class,$userData);
+        $userForm->handleRequest($request);
+
+        if($userForm->isSubmitted() && $userForm->isValid())
+        {
+            $userData = $userForm->getData();
+            $entityManager->persist($userData);
+            $entityManager->flush();
+            $this->addFlash('success','Kontodaten aktualisiert.');
+        }
+
+        if($notificationForm->isSubmitted() && $notificationForm->isValid())
+        {
+            $user = new UserRepository($registry);
+            $notification->setUser($user->find($this->getUser()));
+            $notification = $notificationForm->getData();
+            $entityManager->persist($notification);
+            $entityManager->flush();
+            $this->addFlash('success','Einstellungen gespeichert.');
+        }
+
         return $this->render('profile/index.html.twig',[
-            'user' => $this->userRepository->find($this->getUser())
+            'user' => $this->userRepository->find($this->getUser()),
+            'templates' => $templateRepository->findAll(),
+            'user_form' => $userForm->createView(),
+            'notification_form' => $notificationForm->createView(),
+
         ]);
     }
 

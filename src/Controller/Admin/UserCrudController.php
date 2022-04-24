@@ -49,6 +49,14 @@ class UserCrudController extends AbstractCrudController
                 'multiple' => true,
                 'by_reference' => false,
                 'expanded' => true
+            ]);
+        yield BooleanField::new('hasNewsletter')
+            ->renderAsSwitch(true);
+        yield AssociationField::new('notifications')
+            ->setFormTypeOptions([
+                'multiple' => true,
+                'by_reference' => false,
+                'expanded' => true
             ])
         ;
     }

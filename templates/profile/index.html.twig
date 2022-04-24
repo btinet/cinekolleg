@@ -20,16 +20,18 @@
                 </div>
             </div>
             {% endif %}
-            <div class="card">
-                <div class="card-body">
-                    <p class="card-text">
-                        Funktionen und Übersichten folgen mit der Zeit. Gibt es besondere Wünsche? Sprich mich einfach darauf an!
-                    </p>
-                    <p class="card-text">
-                        Demnächst folgen Funktionen zum Ändern von Name, Passwort und E-Mail-Adresse sowie das An- und Abmelden vom Newsletter, insofern es dann auch tatsächlich einen geben wird.
-                    </p>
-                </div>
-            </div>
+            <h4 class="section-lead">
+                Kontodaten
+            </h4>
+            {{ form_start(user_form) }}
+            {{ form_end(user_form) }}
+            <h4 class="section-lead">
+                E-Mail-Benachrichtigung
+            </h4>
+            {{ form_start(notification_form) }}
+            {% block _notification_sources_row %}
+            {% endblock %}
+            {{ form_end(notification_form) }}
         </div>
     </section>
 {% endblock %}

@@ -4,6 +4,10 @@ namespace App\EventSubscriber;
 
 use App\Entity\Course;
 use App\Entity\User;
+use App\Repository\UserRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityBuiltEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,11 +22,13 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     private UserPasswordHasherInterface $passwordHasher;
     protected MailerInterface $mailer;
     private array $emails;
+    private UserRepository $userRepository;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, MailerInterface $mailer, UserRepository $userRepository)
     {
         $this->passwordHasher = $passwordHasher;
         $this->mailer = $mailer;
+        $this->userRepository = $userRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -30,6 +36,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         return [
             BeforeEntityPersistedEvent::class => ['setPassword'],
             AfterEntityUpdatedEvent::class => ['sendCourseUpdate'],
+            AfterEntityPersistedEvent::class => ['sendCourseCreate'],
         ];
     }
 
@@ -70,6 +77,30 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $this->mailer->send($email);
         }
 
+    }
+
+    public function sendCourseCreate(AfterEntityPersistedEvent $event)
+    {
+        $entity = $event->getEntityInstance();
+
+        if(!($entity instanceof Course)) {
+            return;
+        }
+
+
+        $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
+
+        foreach ($this->userRepository->findAll() as $user) {
+            $this->emails[] = (new TemplatedEmail())
+                ->from($sender)
+                ->to(new Address($user->getEmail(), $user->getFirstName()))
+                ->subject("Neuer Kurs verfügbar")
+                ->context(['user' => $user,'course'=>$entity])
+                ->htmlTemplate('emails/email_course_create.html.twig');
+        }
+        foreach ($this->emails as $email) {
+            $this->mailer->send($email);
+        }
     }
 
 }
