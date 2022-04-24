@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Repository\LessonDocRepository;
+use App\Repository\NotificationTemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +33,7 @@ class MailerController extends AbstractController
      * @param DownloadHandler $downloadHandler
      * @return Response
      */
-    public function sendEmail(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer,LessonDocRepository $docRepository, DownloadHandler $downloadHandler): Response
+    public function sendEmail(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer, NotificationTemplateRepository $templateRepository, LessonDocRepository $docRepository, DownloadHandler $downloadHandler): Response
     {
         $name = $request->request->get('first_name');
         $email = $request->request->get('email');
@@ -40,10 +42,12 @@ class MailerController extends AbstractController
         $document = $docRepository->find(7)->getDocument();
 
 
+
         $user = new User();
         $user->setFirstName($name);
         $user->setEmail($email);
         $user->setIsVerified(0);
+        $user->setHasNewsletter(true);
         $user->setPassword(
             $passwordHasher->hashPassword(
                 $user,
@@ -51,7 +55,16 @@ class MailerController extends AbstractController
             )
         );
 
+        $notificationTemplates = $templateRepository->findAll();
+        $notification = new Notification();
+        $notification->setUser($user);
+
+        foreach ($notificationTemplates as $notificationTemplate) {
+            $notification->addSource($notificationTemplate);
+        }
+
         $entityManager->persist($user);
+        $entityManager->persist($notification);
         $entityManager->flush();
 
         $projectDir = $this->getParameter('kernel.project_dir');

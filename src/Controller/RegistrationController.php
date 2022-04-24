@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\NotificationTemplateRepository;
 use App\Security\AppAuthenticator;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +32,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, NotificationTemplateRepository $templateRepository, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,6 +40,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $user->setHasNewsletter(false);
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
@@ -45,7 +48,16 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $notificationTemplates = $templateRepository->findAll();
+            $notification = new Notification();
+            $notification->setUser($user);
+
+            foreach ($notificationTemplates as $notificationTemplate) {
+                $notification->addSource($notificationTemplate);
+            }
+
             $entityManager->persist($user);
+            $entityManager->persist($notification);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
