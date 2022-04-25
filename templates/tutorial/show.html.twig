@@ -11,19 +11,19 @@
                 <div class="col-12 col-md-7 offset-md-5">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <a href="{{ path('tutorium_index') }}" class="btn btn-light btn-sm"><i class="bi bi-chevron-double-left me-2"></i>zurück</a>
+                            <a href="{{ path('tutorium_index') }}" class="btn btn-light "><i class="bi bi-chevron-double-up me-2"></i>Übersicht</a>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a href="{{ ea_url()
                                     .setController('App\\Controller\\Admin\\CourseCrudController')
                                     .setAction('edit')
-                                    .setEntityId(course.id) }}" class="btn btn-info btn-sm"><i class="bi bi-pen"></i></a>
+                                    .setEntityId(course.id) }}" class="btn btn-info "><i class="bi bi-pen"></i></a>
                             {% endif %}
                         </div>
                         <div>
                             {% if course.users.contains(app.user) %}
-                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-success btn-sm"><i class="bi bi-bell-fill me-2"></i>nicht folgen</a>
+                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-success "><i class="bi bi-bell-fill me-2"></i>nicht folgen</a>
                             {% else %}
-                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-light btn-sm"><i class="bi bi-bell me-2"></i>folgen</a>
+                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-light "><i class="bi bi-bell me-2"></i>folgen</a>
                             {% endif %}
                         </div>
                     </div>
@@ -72,11 +72,29 @@
                                 <small class="d-block">{{ course.location }}</small>
                             </div>
                         </div>
+                        <h4>Kursinhalt</h4>
                         <div>{{ course.description|raw }}</div>
-                        <div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if prev %}
+                                <a href="{{ path('tutorium_show',{id: prev.id }) }}" class="btn btn-dark"><i class="bi bi-chevron-double-left me-2"></i>Zurück</a>
+                            {% else %}
+                                <a href="#" class="btn disabled btn-light"><i class="bi bi-chevron-double-left me-2"></i>Zurück</a>
+                            {% endif %}
+                            {% if next %}
+                                <a href="{{ path('tutorium_show',{id: next.id }) }}" class="btn btn-dark">Weiter<i class="bi bi-chevron-double-right ms-2"></i></a>
+                            {% else %}
+                                <a href="#" class="btn disabled btn-light">Weiter<i class="bi bi-chevron-double-right ms-2"></i></a>
+                            {% endif %}
+                        </div>
+                        <div class="pt-3">
+                            <h4>Kommentare</h4>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item bg-transparent">
+                                <li class="list-group-item bg-transparent px-0">
                                     {{ form_start(comment_form) }}
+                                    <div class="input-group mb-3">
+                                        {{ form_widget(comment_form.content) }}
+                                        {{ form_widget(comment_form.submit) }}
+                                    </div>
                                     {{ form_end(comment_form) }}
                                 </li>
                                 {% for comment in course.courseComments %}

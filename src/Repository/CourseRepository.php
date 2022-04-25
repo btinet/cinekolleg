@@ -45,6 +45,37 @@ class CourseRepository extends ServiceEntityRepository
         }
     }
 
+    public function getPreviousPost($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+
+
+            ->andWhere('s.id < :id')
+            ->setParameter(':id', $id)
+            ->orderBy('s.id', 'DESC')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+    public function getNextPost($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+
+            ->andWhere('s.id > :id')
+            ->setParameter(':id', $id)
+            ->orderBy('s.id', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */

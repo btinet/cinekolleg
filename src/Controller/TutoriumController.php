@@ -39,6 +39,8 @@ class TutoriumController extends AbstractController
     public function show(Request $request, EntityManagerInterface $entityManager, ManagerRegistry $registry, CourseRepository $courseRepository, $id): Response
     {
         $course = $courseRepository->find($id);
+        $nextCourse = $courseRepository->getNextPost($id);
+        $prevCourse = $courseRepository->getPreviousPost($id);
         $comment = new CourseComment();
         $commentForm = $this->createForm(CourseCommentType::class,$comment);
         $commentForm->handleRequest($request);
@@ -56,6 +58,8 @@ class TutoriumController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('tutorial/show.html.twig', [
             'course' => $course,
+            'next' => $nextCourse,
+            'prev' => $prevCourse,
             'comment_form' => $commentForm->createView()
         ]);
     }
