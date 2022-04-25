@@ -6,89 +6,90 @@
     {{ include('component/_navbar.html.twig') }}
     <section class="py-5" id="overview">
         <div class="container py-5">
-            <h1 class="text-center">{{ course.title }}</h1>
-            <h2 class="text-center mb-3 h5 section-lead">{{ course.subject }}</h2>
-                <a href="{{ path('tutorium_index') }}" class="btn btn-light btn-sm mb-3"><i class="bi bi-chevron-double-left me-2"></i>zurück</a>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ ea_url()
-                        .setController('App\\Controller\\Admin\\CourseCrudController')
-                        .setAction('edit')
-                        .setEntityId(course.id) }}" class="btn btn-info btn-sm mb-3"><i class="bi bi-pen"></i></a>
-                {% endif %}
-            {% if course.users.contains(app.user) %}
-                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-success btn-sm mb-3"><i class="bi bi-bell-fill me-2"></i>nicht folgen</a>
-                {% else %}
-                    <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-light btn-sm mb-3"><i class="bi bi-bell me-2"></i>folgen</a>
-            {% endif %}
-            <div class="row g-3">
-                <div class="col-12 col-md-7 order-3 order-md-1">
-                    <div class="card bord shadow-sm">
-                        <div class="card-header">
-                            <p class="section-title mb-0">Kursdetails</p>
+
+            <div class="row mb-5">
+                <div class="col-12 col-md-7 offset-md-5">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{{ path('tutorium_index') }}" class="btn btn-light btn-sm"><i class="bi bi-chevron-double-left me-2"></i>zurück</a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ ea_url()
+                                    .setController('App\\Controller\\Admin\\CourseCrudController')
+                                    .setAction('edit')
+                                    .setEntityId(course.id) }}" class="btn btn-info btn-sm"><i class="bi bi-pen"></i></a>
+                            {% endif %}
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-start">
-                                <small class="lead text-start text-nowrap">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
-                                <small class="d-block text-start">{{ course.location }}</small>
-                            </div>
+                        <div>
+                            {% if course.users.contains(app.user) %}
+                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-success btn-sm"><i class="bi bi-bell-fill me-2"></i>nicht folgen</a>
+                            {% else %}
+                                <a href="{{ path('tutorium_subscribe',{id:course.id}) }}" class="btn btn-light btn-sm"><i class="bi bi-bell me-2"></i>folgen</a>
+                            {% endif %}
                         </div>
-                        <div class="list-group list-group-flush">
-                            {% for file in course.lessonDocs %}
-                                <a href="{{ path('lesson_doc_download',{'id':file.id}) }}" class="list-group-item list-group-item-action d-flex flex-column" target="_blank">
-                                    <div class="d-flex justify-content-between align-items-center gap-3">
-                                        <div class="d-flex justify-content-start align-items-center">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-7 offset-md-5">
+                    <h1 class="text-center text-md-start">{{ course.title }}</h1>
+                    {% if course.document %}
+                        <img src="{{ vich_uploader_asset(course)|imagine_filter('course_index') }}" alt="Tutorium" class="img-fluid">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-md-5 order-last order-md-first">
+                    <div class="card card-body border-0 shadow-sm d-flex flex-column justify-content-start justify-content-md-end mb-3 sticky-md-top" style="top: 100px">
+                        <h4>Kursmaterialien</h4>
+                        {% for file in course.lessonDocs %}
+                            <a href="{{ path('lesson_doc_download',{'id':file.id}) }}" class="d-flex flex-column" target="_blank">
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <div class="d-flex justify-content-start align-items-center">
 
                                         <span class="fw-bold">
                                         <i class="bi bi-file-pdf text-danger me-1"></i> {{ file.title }}<br>
                                         <small class="text-decoration-none fw-light">{{ file.description }}</small>
                                         </span>
-                                        </div>
-                                        <span class="small text-muted">
+                                    </div>
+                                    <span class="small text-muted">
                                     {{ file.updated|ago }}
                                 </span>
-                                    </div>
-                                </a>
-                            {% endfor %}
-                        </div>
-                        <div class="card-footer">
-                            <p class="mb-0 small">Feature vorschlagen? <a href="mailto:bwagner@vapita.de" class="link-dark">Schreibe Ben eine Nachricht</a>.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-5 order-2">
-                    <div class="card border-primary shadow-sm h-100">
-                        <div class="card-header">
-                            <p class="section-title mb-0">
-                                Informationen und Hinweise
-                            </p>
-                        </div>
-                        <div class="card-body">
-                                {{ course.description|raw }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 order-last">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            <p class="section-title mb-0">
-                                Kommentare
-                            </p>
-                        </div>
-                        <div class="card-body">
-                            {{ form_start(comment_form) }}
-                            {{ form_end(comment_form) }}
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            {% for comment in course.courseComments %}
-                            <li class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <b class="text-primary">{{ comment.user }}</b>
-                                    <small>{{ comment.updated|ago }}</small>
                                 </div>
+                            </a>
+                        {% else %}
+                            <span>Noch keine Dateien verfügbar!</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="row g-3 row-cols-1">
+                        <h2 class="text-center text-md-start h5 section-lead">{{ course.subject }}</h2>
+                        <div>
+                            <div class="d-flex flex-column justify-content-start justify-content-md-end mb-3">
+                                <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
+                                <small class="d-block">{{ course.location }}</small>
+                            </div>
+                        </div>
+                        <div>{{ course.description|raw }}</div>
+                        <div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent">
+                                    {{ form_start(comment_form) }}
+                                    {{ form_end(comment_form) }}
+                                </li>
+                                {% for comment in course.courseComments %}
+                                    <li class="list-group-item bg-transparent">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <b class="text-primary">{{ comment.user }}</b>
+                                            <small>{{ comment.updated|ago }}</small>
+                                        </div>
 
-                                <p class="mb-0">{{ comment.content }}</p></li>
-                            {% endfor %}
-                        </ul>
+                                        <p class="mb-0">{{ comment.content }}</p></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
