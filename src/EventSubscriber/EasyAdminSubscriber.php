@@ -69,7 +69,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
 
         foreach ($entity->getUsers() as $user) {
-            $notification = $this->notificationRepository->findNotificationSettingsByUser($user,'3002');
+            $notification = $this->userRepository->findNotificationSettingsByUser($user->getId(),'3002',$entity->getId());
 
             if(null !== $notification) {
                 $this->emails[] = (new TemplatedEmail())

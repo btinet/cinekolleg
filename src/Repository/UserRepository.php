@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -78,5 +79,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+
+    public function findNotificationSettingsByUser($userId,$sourceId, $courseId): ?Notification
+    {
+        return $this->createQueryBuilder('u')
+            ->select('n')
+            ->from('App:Notification','n')
+            ->andWhere('u.id = :userId')
+            ->andWhere('sources.sourceId =:sourceId')
+            ->andWhere('n.user =:userId')
+            ->andWhere('courses.id =:courseId')
+            ->setParameter('userId', $userId)
+            ->setParameter('sourceId', $sourceId)
+            ->setParameter('courseId', $courseId)
+            ->join('n.sources','sources')
+            ->leftJoin('u.courses','courses')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
 }
