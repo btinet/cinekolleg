@@ -63,7 +63,7 @@ class NotificationRepository extends ServiceEntityRepository
     }
     */
 
-    public function findNotificationSettingsByUser($user,$sourceId): ?Notification
+    public function findNotificationSettingsByUser($user,$sourceId): ?array
     {
         return $this->createQueryBuilder('notification')
             ->andWhere('notification.user = :user')
@@ -72,7 +72,7 @@ class NotificationRepository extends ServiceEntityRepository
             ->setParameter('sourceId', $sourceId)
             ->leftJoin('notification.sources','sources')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
             ;
     }
 }
