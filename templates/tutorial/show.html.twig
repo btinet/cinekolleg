@@ -116,7 +116,7 @@
                             </div>
                             <h2 class="text-center text-md-start h5 section-lead">{{ course.subject }}</h2>
                             <div class="d-flex flex-column justify-content-start align-items-center align-items-md-start mb-3">
-                                <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
+                                <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|date('d.m.Y') }}</small>
                                 <small class="d-block">{{ course.location }}</small>
                             </div>
                         </div>

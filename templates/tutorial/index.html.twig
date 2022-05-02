@@ -16,7 +16,7 @@
                             {% endif %}
                             <div class="card-body">
                                 <div class="d-flex flex-column justify-content-start justify-content-md-end mb-3">
-                                    <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|ago }}</small>
+                                    <small class="opacity-50">{{ course.time|date('H:i') }} Uhr, {{ course.date|date('d.m.Y') }}</small>
                                     <small class="d-block">{{ course.location }}</small>
                                     <h6 class="mb-0 hero-paragraph fw-bold" style="line-height: 1.2">{{ course.title }}</h6>
                                     <p class="mb-0 opacity-75" style="line-height: 1.2">{{ course.subject }}</p>
