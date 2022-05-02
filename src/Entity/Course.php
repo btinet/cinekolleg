@@ -91,11 +91,17 @@ class Course
      */
     private $updated;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CourseImage::class, mappedBy="course")
+     */
+    private $courseImages;
+
     public function __construct()
     {
         $this->lessonDocs = new ArrayCollection();
         $this->courseComments = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->courseImages = new ArrayCollection();
     }
 
     public function __toString()
@@ -308,5 +314,35 @@ class Course
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * @return Collection<int, CourseImage>
+     */
+    public function getCourseImages(): Collection
+    {
+        return $this->courseImages;
+    }
+
+    public function addCourseImage(CourseImage $courseImage): self
+    {
+        if (!$this->courseImages->contains($courseImage)) {
+            $this->courseImages[] = $courseImage;
+            $courseImage->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourseImage(CourseImage $courseImage): self
+    {
+        if ($this->courseImages->removeElement($courseImage)) {
+            // set the owning side to null (unless already changed)
+            if ($courseImage->getCourse() === $this) {
+                $courseImage->setCourse(null);
+            }
+        }
+
+        return $this;
     }
 }

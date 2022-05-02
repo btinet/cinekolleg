@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Course;
 use App\Entity\CourseComment;
+use App\Entity\CourseImage;
 use App\Entity\LessonDoc;
 use App\Entity\Notification;
 use App\Entity\NotificationTemplate;
@@ -13,8 +14,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\SectionMenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\SubMenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,6 +56,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('tutorials');
         yield MenuItem::linkToCrud('Kurse', 'fa fa-list', Course::class);
         yield MenuItem::linkToCrud('Dokumente', 'fa fa-file', LessonDoc::class);
+        yield MenuItem::linkToCrud('User Uploads', 'fa fa-image', CourseImage::class);
         yield MenuItem::linkToCrud('Kommentare', 'fa fa-comment', CourseComment::class);
 
         yield MenuItem::section('users');

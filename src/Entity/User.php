@@ -76,6 +76,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $hasNewsletter;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CourseImage::class, mappedBy="user")
+     */
+    private $courseImages;
+
     public function __toString()
     {
         return $this->firstName;
@@ -86,6 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->courseComments = new ArrayCollection();
         $this->courses = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->courseImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -328,6 +334,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setHasNewsletter(bool $hasNewsletter): self
     {
         $this->hasNewsletter = $hasNewsletter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CourseImage>
+     */
+    public function getCourseImages(): Collection
+    {
+        return $this->courseImages;
+    }
+
+    public function addCourseImage(CourseImage $courseImage): self
+    {
+        if (!$this->courseImages->contains($courseImage)) {
+            $this->courseImages[] = $courseImage;
+            $courseImage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourseImage(CourseImage $courseImage): self
+    {
+        if ($this->courseImages->removeElement($courseImage)) {
+            // set the owning side to null (unless already changed)
+            if ($courseImage->getUser() === $this) {
+                $courseImage->setUser(null);
+            }
+        }
 
         return $this;
     }
