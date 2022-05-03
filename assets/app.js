@@ -14,6 +14,7 @@ import * as bootstrap from 'bootstrap';
 
 // start the Stimulus application
 import './bootstrap';
+import Chocolat from "chocolat";
 
 
 (function () {
@@ -34,4 +35,13 @@ import './bootstrap';
                 form.classList.add('was-validated')
             }, false)
         })
+
+
+
 })()
+
+
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    Chocolat(document.querySelectorAll('.chocolat-parent .chocolat-image'))
+})

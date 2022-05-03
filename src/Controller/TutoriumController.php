@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Course;
 use App\Entity\CourseComment;
+use App\Entity\CourseImage;
 use App\Entity\LessonDoc;
 use App\Entity\User;
 use App\Form\CourseCommentType;
+use App\Form\CourseImageType;
 use App\Repository\CourseRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,6 +47,12 @@ class TutoriumController extends AbstractController
         $commentForm = $this->createForm(CourseCommentType::class,$comment);
         $commentForm->handleRequest($request);
 
+        $courseImage = new CourseImage();
+        $imageForm = $this->createForm(CourseImageType::class,$courseImage,[
+            'action' => $this->generateUrl('course_image_upload',['id' => $id]),
+            'method' => 'POST',
+        ]);
+
         if($commentForm->isSubmitted() && $commentForm->isValid())
         {
             $user = new UserRepository($registry);
@@ -60,7 +68,8 @@ class TutoriumController extends AbstractController
             'course' => $course,
             'next' => $nextCourse,
             'prev' => $prevCourse,
-            'comment_form' => $commentForm->createView()
+            'comment_form' => $commentForm->createView(),
+            'upload_form' => $imageForm->createView()
         ]);
     }
 

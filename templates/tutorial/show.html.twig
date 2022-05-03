@@ -50,17 +50,17 @@
 
             <div class="row">
                 <div class="col-12 col-md-5 order-last order-md-first">
-                    <div class="card border-0 shadow-sm sticky-md-top" style="top: 100px">
+                    <div class="card border-0 shadow-sm sticky-md-top" style="top: 100px;z-index: 10">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Material</button>
+                                <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="false">Material</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Bilder</button>
+                                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Bilder</button>
                             </li>
                         </ul>
                             <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <div class="list-group list-group-flush">
                                         {% for file in course.lessonDocs %}
                                             <a href="{{ path('lesson_doc_download',{'id':file.id}) }}" class="list-group-item list-group-item-action d-flex flex-column" target="_blank">
@@ -73,13 +73,19 @@
                                     </div>
 
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="row g-0 row-cols-2 row-cols-md-3">
+                                <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="row g-0 row-cols-2 row-cols-md-3 chocolat-parent">
                                         {% for image in course.courseImages %}
-                                            <img src="{{ vich_uploader_asset(image)|imagine_filter('small_square') }}" alt="{{ course.title }}" class="img-fluid">
+                                        <a class="chocolat-image" href="{{ vich_uploader_asset(image)|imagine_filter('course_image') }}" title="{{ image.title ?? 'Ohne Titel' }}">
+                                            <img src="{{ vich_uploader_asset(image)|imagine_filter('small_square') }}" alt="{{ course.title ?? 'Ohne Titel' }}" class="img-fluid">
+                                        </a>
                                         {% else %}
-                                            <span>Noch keine Bilder verfügbar!</span>
+
                                         {% endfor %}
+
+                                        <div class="w-100 h-100 d-flex justify-content-center align-items-center border-top">
+                                            {{ form(upload_form) }}
+                                        </div>
                                     </div>
                                 </div>
 

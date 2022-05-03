@@ -41,3 +41,24 @@
 
 @import "~bootstrap-icons";
 @import "styles";
+
+@import '~chocolat/dist/css/chocolat.css';
+.chocolat-wrapper .chocolat-bottom {
+  padding: 30px 60px !important;
+  z-index: 99999;
+}
+.chocolat-overlay {
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: transparentize($white, .4) !important;
+  opacity: 1 !important;
+}
+
+.chocolat-center {
+  padding-left: env(safe-area-inset-left, 16px) !important;
+  padding-right:  env(safe-area-inset-right, 16px) !important;
+}
+
+.chocolat-close{
+  right: env(safe-area-inset-right, 0) !important;
+}
