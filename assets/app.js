@@ -22,6 +22,7 @@ import Chocolat from "chocolat";
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.querySelectorAll('.needs-validation')
+    let images = document.querySelectorAll('img')
 
     // Loop over them and prevent submission
     Array.prototype.slice.call(forms)
@@ -35,6 +36,14 @@ import Chocolat from "chocolat";
                 form.classList.add('was-validated')
             }, false)
         })
+
+
+
+            Array.prototype.slice.call(images)
+                .forEach(function (image) {
+                    image.classList.add('img-fluid')
+                })
+
 
 
 

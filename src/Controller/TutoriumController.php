@@ -9,6 +9,7 @@ use App\Entity\LessonDoc;
 use App\Entity\User;
 use App\Form\CourseCommentType;
 use App\Form\CourseImageType;
+use App\Repository\CourseAppointmentRepository;
 use App\Repository\CourseRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,11 +28,12 @@ class TutoriumController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(CourseRepository $courseRepository): Response
+    public function index(CourseRepository $courseRepository, CourseAppointmentRepository $appointmentRepository): Response
     {
-        $courses = $courseRepository->findby([],['date' => 'DESC'],10);
+        $courses = $courseRepository->findby([],['date' => 'DESC'],6);
         return $this->render('tutorial/index.html.twig', [
-            'courses' => $courses
+            'courses' => $courses,
+            'appointments' => $appointmentRepository->findAll()
         ]);
     }
 

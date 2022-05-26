@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>E-Mail-Adresse bestätigen</title>
+    <title>Neuer Kursabschnitt</title>
 
     <style>
         @import url("https://use.typekit.net/dcz3wfu.css");
@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <p>
-                                Der Kurs <span class="fw-bold">{{ course.title }}</span> wurde gerade erstellt.
+                                Dem Kurs <span class="fw-bold">{{ course.course.title }}</span> wurde gerade ein neuer Abschnitt hinzugefügt.
                             </p>
                             <p>
                                 Schau am besten gleich vorbei, um auf dem neuesten Stand zu bleiben.
@@ -64,46 +64,13 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <a class="btn btn-warning rounded-0 px-5 my-4" href="{{ url('tutorium_show',{id:course.id}) }}">Zum Kurs</a>
+                            <a class="btn btn-warning rounded-0 px-5 my-4" href="{{ url('tutorium_show',{id:course.course.id}) }}">Zum Kurs</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <p>Sollte das nicht funktionieren, kopiere bitte den Link in die Browserzeile:</p>
-                            <p class="link-primary">{{ url('tutorium_show',{id:course.id}) }}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h3>Kursdetails</h3>
-                            <table class="table table-sm table-striped table-responsive-sm mb-5">
-                                <tbody>
-                                <tr>
-                                    <th scope="row">Kurs</th>
-                                    <td>{{ course.title }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Thema</th>
-                                    <td>{{ course.subject }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Ort</th>
-                                    <td>{{ course.location }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Datum</th>
-                                    <td>{{ course.date|date('d.m.Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Uhr</th>
-                                    <td>{{ course.time|date('H:i') }} Uhr</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Beschreibung</th>
-                                    <td>{{ course.description|raw }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <p class="link-primary">{{ url('tutorium_show',{id:course.course.id}) }}</p>
                         </div>
                     </div>
                     <div class="row g-3">
@@ -111,9 +78,6 @@
                             <p>Mit lichtmalerischen Grüßen<br/>
                                 <img src="https://cdn.cinekolleg.de/images/graphics/sign.png"  alt="sign"><br>
                                 Benjamin Wagner</p>
-                        </div>
-                        <div class="col-12">
-                            <small class="text-muted">Du erhältst diese E-Mail, da Du den Kurs abonniert hast (was mich sehr freut).</small>
                         </div>
                     </div>
                 </div>

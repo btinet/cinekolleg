@@ -3,8 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Course;
+use App\Entity\CourseAppointment;
 use App\Entity\CourseComment;
 use App\Entity\CourseImage;
+use App\Entity\CourseSection;
 use App\Entity\LessonDoc;
 use App\Entity\Notification;
 use App\Entity\NotificationTemplate;
@@ -49,12 +51,14 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('overview');
         yield MenuItem::linkToUrl('Website', 'fas fa-home', $this->generateUrl('app_index'));
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
+        yield MenuItem::linkToCrud('Kurstermine', 'fa fa-clock', CourseAppointment::class);
 
         yield MenuItem::section('articles');
         yield MenuItem::linkToCrud('Seiten', 'fa fa-file', Page::class);
 
         yield MenuItem::section('tutorials');
         yield MenuItem::linkToCrud('Kurse', 'fa fa-list', Course::class);
+        yield MenuItem::linkToCrud('Kursabschnitte', 'fa fa-list', CourseSection::class);
         yield MenuItem::linkToCrud('Dokumente', 'fa fa-file', LessonDoc::class);
         yield MenuItem::linkToCrud('User Uploads', 'fa fa-image', CourseImage::class);
         yield MenuItem::linkToCrud('Kommentare', 'fa fa-comment', CourseComment::class);

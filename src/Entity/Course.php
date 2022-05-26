@@ -96,12 +96,24 @@ class Course
      */
     private $courseImages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CourseSection::class, mappedBy="course")
+     */
+    private $courseSections;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CourseAppointment::class, mappedBy="course")
+     */
+    private $courseAppointments;
+
     public function __construct()
     {
         $this->lessonDocs = new ArrayCollection();
         $this->courseComments = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->courseImages = new ArrayCollection();
+        $this->courseSections = new ArrayCollection();
+        $this->courseAppointments = new ArrayCollection();
     }
 
     public function __toString()
@@ -340,6 +352,66 @@ class Course
             // set the owning side to null (unless already changed)
             if ($courseImage->getCourse() === $this) {
                 $courseImage->setCourse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CourseSection>
+     */
+    public function getCourseSections(): Collection
+    {
+        return $this->courseSections;
+    }
+
+    public function addCourseSection(CourseSection $courseSection): self
+    {
+        if (!$this->courseSections->contains($courseSection)) {
+            $this->courseSections[] = $courseSection;
+            $courseSection->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourseSection(CourseSection $courseSection): self
+    {
+        if ($this->courseSections->removeElement($courseSection)) {
+            // set the owning side to null (unless already changed)
+            if ($courseSection->getCourse() === $this) {
+                $courseSection->setCourse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CourseAppointment>
+     */
+    public function getCourseAppointments(): Collection
+    {
+        return $this->courseAppointments;
+    }
+
+    public function addCourseAppointment(CourseAppointment $courseAppointment): self
+    {
+        if (!$this->courseAppointments->contains($courseAppointment)) {
+            $this->courseAppointments[] = $courseAppointment;
+            $courseAppointment->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourseAppointment(CourseAppointment $courseAppointment): self
+    {
+        if ($this->courseAppointments->removeElement($courseAppointment)) {
+            // set the owning side to null (unless already changed)
+            if ($courseAppointment->getCourse() === $this) {
+                $courseAppointment->setCourse(null);
             }
         }
 

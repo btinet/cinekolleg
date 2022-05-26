@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Course;
+use App\Entity\CourseSection;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
@@ -92,6 +93,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
+        if(($entity instanceof CourseSection)) {
+            $this->sendCourseSectionCreated($event);
+            return;
+        }
+
         if(!($entity instanceof Course)) {
             return;
         }
@@ -109,6 +115,36 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                     ->subject("Neuer Kurs verfügbar")
                     ->context(['user' => $user,'course'=>$entity])
                     ->htmlTemplate('emails/email_course_create.html.twig');
+            }
+        }
+        if(!empty($this->emails)) {
+            foreach ($this->emails as $email) {
+                $this->mailer->send($email);
+            }
+        }
+    }
+
+    public function sendCourseSectionCreated(AfterEntityPersistedEvent $event)
+    {
+        $entity = $event->getEntityInstance();
+
+        if(!($entity instanceof CourseSection)) {
+            return;
+        }
+
+        $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
+
+        foreach ($this->userRepository->findAll() as $user) {
+            $notification = $this->notificationRepository->findNotificationSettingsByUser($user,'3001');
+
+            if(null !== $notification)
+            {
+                $this->emails[] = (new TemplatedEmail())
+                    ->from($sender)
+                    ->to(new Address($user->getEmail(), $user->getFirstName()))
+                    ->subject("Neuer Kursabschnitt verfügbar!")
+                    ->context(['user' => $user,'course'=>$entity])
+                    ->htmlTemplate('emails/email_course_section_create.html.twig');
             }
         }
         if(!empty($this->emails)) {

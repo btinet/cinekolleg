@@ -2,6 +2,11 @@
 
 {% block title %}{{ course.title }}{% endblock %}
 
+
+
+
+
+
 {% block body %}
     {{ include('component/_navbar.html.twig') }}
     <section class="py-5" id="overview">
@@ -11,12 +16,16 @@
                 <div class="col-12 col-md-5 order-last align-self-stretch order-md-first">
                     <div class="card border-0 shadow-sm h-100">
                         <div class="card-header bg-white">
-                            <span class="h5">Abonnentinnen</span>
+                            <span class="h5">Weitere Termine</span>
                         </div>
                         <div class="list-group list-group-flush" style="overflow:auto; max-height: 360px;">
-                            {% for user in course.users %}
+                            {% for appointment in course.courseAppointments %}
                             <div class="list-group-item">
-                                {{ user.firstName }}
+                                <div class="d-flex flex-column">
+                                    <span>{{ appointment.title }}</span>
+                                    <small class="text-truncate">{{ appointment.date|date('d.m.Y') }}, um {{ appointment.time|date('H:i') }} Uhr ({{ appointment.date|ago }})</small>
+                                </div>
+
                             </div>
                             {% endfor %}
                         </div>
@@ -126,8 +135,23 @@
                                 <small class="d-block">{{ course.location }}</small>
                             </div>
                         </div>
+                        <ol>
+                            {% for section in course.courseSections|sort((a, b) => a.created <=> b.created) %}
+                                <li><a href="#section-{{ section.slug }}">{{ section.title }}</a></li>
+                            {% else %}
+
+                            {% endfor %}
+                        </ol>
                         <h4>Kursinhalt</h4>
                         <div>{{ course.description|raw }}</div>
+                        {% for section in course.courseSections %}
+                            <hr id="section-{{ section.slug }}" class="mb-3">
+                            <small>{{ section.updated|ago }} aktualisiert</small>
+                            <h4>{{ section.title }}</h4>
+                            <div>{{ section.description|raw }}</div>
+                            {% else %}
+
+                        {% endfor %}
                         <div class="d-flex justify-content-sm-between flex-column flex-sm-row align-items-start align-items-md-center">
                             {% if prev %}
                                 <a href="{{ path('tutorium_show',{id: prev.id }) }}" class="mb-3 mb-md-0 btn btn-dark"><i class="bi bi-chevron-double-left me-2"></i>{{ prev.title }}</a>
@@ -181,3 +205,5 @@
         #}
     </section>
 {% endblock %}
+
+

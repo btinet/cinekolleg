@@ -40,6 +40,21 @@
 
                 {% endfor %}
             </div>
+            <div class="my-3 shadow-sm">
+                <div class="list-group list-group-flush">
+                    {% for appointment in appointments %}
+                        <a href="{{ path('tutorium_show',{id:appointment.course.id}) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex flex-column">
+                                <h5 class="hero-title mb-0 mt-1">{{ appointment.course.title }}</h5>
+                                <span>{{ appointment.title }}</span>
+                                <small class="text-truncate">{{ appointment.date|date('d.m.Y') }}, um {{ appointment.time|date('H:i') }} Uhr ({{ appointment.date|ago }})</small>
+                            </div>
+                        </a>
+                    {% else %}
+                        Etwas Geduld - die nächsten Termine sind in Planung
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         {#
         {% if is_granted('ROLE_USER') %}

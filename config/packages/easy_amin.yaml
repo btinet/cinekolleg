@@ -1,0 +1,13 @@
+easy_admin:
+  design:
+    form_theme:
+      - '@EasyAdmin/form/bootstrap_4.html.twig'
+      - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+  entities:
+    CourseSection:
+      # ...
+      form:
+        fields:
+          # ...
+          - { property: 'description', type: 'fos_ckeditor',
+              type_options: { config_name: 'advanced_config' } }
