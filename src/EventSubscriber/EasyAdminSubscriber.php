@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Course;
+use App\Entity\CourseAppointment;
 use App\Entity\CourseSection;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
@@ -98,6 +99,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             return;
         }
 
+        if(($entity instanceof CourseAppointment)) {
+            $this->sendCourseAppointmentCreated($event);
+            return;
+        }
+
         if(!($entity instanceof Course)) {
             return;
         }
@@ -145,6 +151,36 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                     ->subject("Neuer Kursabschnitt verfügbar!")
                     ->context(['user' => $user,'course'=>$entity])
                     ->htmlTemplate('emails/email_course_section_create.html.twig');
+            }
+        }
+        if(!empty($this->emails)) {
+            foreach ($this->emails as $email) {
+                $this->mailer->send($email);
+            }
+        }
+    }
+
+    public function sendCourseAppointmentCreated(AfterEntityPersistedEvent $event)
+    {
+        $entity = $event->getEntityInstance();
+
+        if(!($entity instanceof CourseAppointment)) {
+            return;
+        }
+
+        $sender = new Address('benjamin.wagner@cinekolleg.de','Benjamin Wagner | CineKolleg');
+
+        foreach ($this->userRepository->findAll() as $user) {
+            $notification = $this->notificationRepository->findNotificationSettingsByUser($user,'3001');
+
+            if(null !== $notification)
+            {
+                $this->emails[] = (new TemplatedEmail())
+                    ->from($sender)
+                    ->to(new Address($user->getEmail(), $user->getFirstName()))
+                    ->subject("Neuer Kurstermin verfügbar!")
+                    ->context(['user' => $user,'course'=>$entity])
+                    ->htmlTemplate('emails/email_course_appointment_create.html.twig');
             }
         }
         if(!empty($this->emails)) {
